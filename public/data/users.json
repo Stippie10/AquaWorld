@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "passwordHash": "$2a$10$EwpW.HeOBC6utIZCyj1wgO/cHYx997xx5pHnL1xX0aDQXEGKL4zUm",
+      "role": "admin"
+    },
+    {
+      "id": "2",
+      "username": "mist",
+      "passwordHash": "$2a$10$YIjlrjYjlrjYjlrjYjlrjO.x0mZV0mZV0mZV0mZV0mZV0mZV0mZV0",
+      "role": "admin"
+    }
+  ]
+}

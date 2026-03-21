@@ -1,0 +1,12 @@
+{
+  "serverIp": "",
+  "team": [],
+  "vacancies": [
+    {
+      "id": "1",
+      "title": "Moderator",
+      "description": "We are looking for active moderators!",
+      "discordUrl": "https://discord.gg/aquaworld"
+    }
+  ]
+}
