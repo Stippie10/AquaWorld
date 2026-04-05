@@ -24,7 +24,7 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="flex min-h-screen bg-linear-to-br from-slate-900 to-slate-800">
+    <div className="flex min-h-screen pt-20 bg-linear-to-br from-slate-900 to-slate-800">
       {/* Sidebar */}
       <div className="w-64 bg-slate-800 text-white p-6 shadow-xl">
         <h2 className="text-2xl font-bold mb-8">🌊 Admin</h2>
@@ -130,6 +130,9 @@ function BlogsTab() {
   const [content, setContent] = useState('');
   const [excerpt, setExcerpt] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [expandedBlogId, setExpandedBlogId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchBlogs();
@@ -137,17 +140,26 @@ function BlogsTab() {
 
   const fetchBlogs = async () => {
     try {
-      const res = await fetch('/api/blogs');
+      setError('');
+      const res = await fetch('/api/blogs', { cache: 'no-store' });
+
+      if (!res.ok) {
+        throw new Error('Blogs ophalen mislukt');
+      }
+
       const data = await res.json();
       setBlogs(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error:', error);
+      setError('Kon blogs niet ophalen. Probeer het opnieuw.');
     }
   };
 
   const handleCreateBlog = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
+    setSuccess('');
 
     try {
       const token = Cookies.get('auth_token');
@@ -160,15 +172,21 @@ function BlogsTab() {
         body: JSON.stringify({ title, content, excerpt })
       });
 
-      if (res.ok) {
-        setTitle('');
-        setContent('');
-        setExcerpt('');
-        setShowForm(false);
-        fetchBlogs();
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        setError(data?.error || 'Blog aanmaken mislukt.');
+        return;
       }
+
+      setTitle('');
+      setContent('');
+      setExcerpt('');
+      setShowForm(false);
+      setSuccess('Blog is geplaatst.');
+      fetchBlogs();
     } catch (error) {
       console.error('Error:', error);
+      setError('Er ging iets mis tijdens het aanmaken van de blog.');
     } finally {
       setLoading(false);
     }
@@ -177,6 +195,9 @@ function BlogsTab() {
   const handleDeleteBlog = async (id: string) => {
     if (!confirm('Weet je het zeker?')) return;
 
+    setError('');
+    setSuccess('');
+
     try {
       const token = Cookies.get('auth_token');
       const res = await fetch(`/api/blogs/${id}`, {
@@ -184,11 +205,17 @@ function BlogsTab() {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
-      if (res.ok) {
-        fetchBlogs();
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        setError(data?.error || 'Blog verwijderen mislukt.');
+        return;
       }
+
+      setSuccess('Blog is verwijderd.');
+      fetchBlogs();
     } catch (error) {
       console.error('Error:', error);
+      setError('Er ging iets mis tijdens het verwijderen van de blog.');
     }
   };
 
@@ -200,7 +227,7 @@ function BlogsTab() {
           onClick={() => setShowForm(!showForm)}
           className="bg-cyan-600 text-white px-6 py-2 rounded-lg hover:bg-cyan-700 font-bold"
         >
-          {showForm ? '✕ Annuleren' : '+ Nieuwe Blog'}
+          {showForm ? '✕ Annuleren' : '+ Blog aanmaken'}
         </button>
       </div>
 
@@ -239,21 +266,68 @@ function BlogsTab() {
         </form>
       )}
 
+      {error && (
+        <div className="mb-4 rounded-lg border border-red-500/40 bg-red-500/10 px-4 py-3 text-red-300">
+          {error}
+        </div>
+      )}
+
+      {success && (
+        <div className="mb-4 rounded-lg border border-green-500/40 bg-green-500/10 px-4 py-3 text-green-300">
+          {success}
+        </div>
+      )}
+
       <div className="space-y-4">
+        {blogs.length === 0 && (
+          <div className="bg-gray-800 p-6 rounded-lg text-gray-300">
+            Er zijn nog geen blogs. Klik op <strong>+ Nieuwe Blog</strong> om je eerste blog te maken.
+          </div>
+        )}
+
         {blogs.map((blog) => (
-          <div key={blog.id} className="bg-gray-800 p-6 rounded-lg text-white flex justify-between items-start">
-            <div className="flex-1">
-              <h3 className="text-xl font-bold">{blog.title}</h3>
-              <p className="text-gray-400 text-sm">
-                {new Date(blog.createdAt).toLocaleDateString('nl-NL')}
-              </p>
+          <div key={blog.id} className="bg-gray-800 p-6 rounded-lg text-white">
+            <div className="flex justify-between items-start gap-4">
+              <div className="flex-1">
+                <h3 className="text-xl font-bold">{blog.title}</h3>
+                <p className="text-gray-400 text-sm mb-2">
+                  {new Date(blog.createdAt).toLocaleDateString('nl-NL')}
+                </p>
+                <p className="text-gray-300 text-sm">
+                  {blog.excerpt || 'Geen samenvatting'}
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-2 shrink-0">
+                <button
+                  onClick={() => setExpandedBlogId(expandedBlogId === blog.id ? null : blog.id)}
+                  className="bg-slate-700 px-4 py-2 rounded hover:bg-slate-600 text-sm font-bold"
+                >
+                  {expandedBlogId === blog.id ? 'Verberg' : 'Bekijk'}
+                </button>
+
+                <Link
+                  href={`/blog/${blog.id}`}
+                  target="_blank"
+                  className="bg-cyan-700 px-4 py-2 rounded hover:bg-cyan-600 text-sm font-bold text-center"
+                >
+                  Open publiek
+                </Link>
+
+                <button
+                  onClick={() => handleDeleteBlog(blog.id)}
+                  className="bg-red-600 px-4 py-2 rounded hover:bg-red-700 text-sm font-bold"
+                >
+                  Verwijderen
+                </button>
+              </div>
             </div>
-            <button
-              onClick={() => handleDeleteBlog(blog.id)}
-              className="bg-red-600 px-4 py-2 rounded hover:bg-red-700 text-sm font-bold ml-4"
-            >
-              Verwijderen
-            </button>
+
+            {expandedBlogId === blog.id && (
+              <div className="mt-4 rounded-lg border border-slate-600 bg-slate-900/50 p-4 whitespace-pre-wrap text-slate-100">
+                {blog.content}
+              </div>
+            )}
           </div>
         ))}
       </div>
