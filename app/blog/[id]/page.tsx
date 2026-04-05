@@ -45,34 +45,34 @@ export default function BlogPost() {
 
   if (loading) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-        <p className="text-gray-600">Laden...</p>
+      <div className="max-w-4xl mx-auto px-4 pt-28 pb-12 text-center">
+        <p className="text-slate-300">Laden...</p>
       </div>
     );
   }
 
   if (!blog) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-        <p className="text-gray-600 text-lg">Blog niet gevonden</p>
+      <div className="max-w-4xl mx-auto px-4 pt-28 pb-12 text-center">
+        <p className="text-slate-200 text-lg">Blog niet gevonden</p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-12">
-      <article className="bg-white p-8 rounded-lg shadow-md">
-        <h1 className="text-4xl font-bold mb-4 text-gray-800">
+    <div className="max-w-3xl mx-auto px-4 pt-28 pb-12">
+      <article className="bg-slate-800/90 border border-slate-700 p-8 rounded-xl shadow-lg">
+        <h1 className="text-4xl font-bold mb-4 text-slate-100 leading-tight">
           {blog.title}
         </h1>
-        <div className="flex gap-6 text-sm text-gray-500 mb-8 pb-8 border-b border-gray-200">
+        <div className="flex flex-wrap gap-6 text-sm text-slate-400 mb-8 pb-8 border-b border-slate-600">
           <span>📅 {formatDate(blog.createdAt)}</span>
           <span>✍️ {blog.author}</span>
           {blog.updatedAt !== blog.createdAt && (
             <span>📝 Bijgewerkt: {formatDate(blog.updatedAt)}</span>
           )}
         </div>
-        <div className="prose prose-lg max-w-none text-gray-700 whitespace-pre-wrap">
+        <div className="max-w-none text-slate-100 whitespace-pre-wrap text-lg leading-relaxed">
           {blog.content}
         </div>
       </article>
