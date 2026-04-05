@@ -133,6 +133,7 @@ function BlogsTab() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [expandedBlogId, setExpandedBlogId] = useState<string | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; title: string } | null>(null);
 
   useEffect(() => {
     fetchBlogs();
@@ -193,8 +194,6 @@ function BlogsTab() {
   };
 
   const handleDeleteBlog = async (id: string) => {
-    if (!confirm('Weet je het zeker?')) return;
-
     setError('');
     setSuccess('');
 
@@ -217,6 +216,20 @@ function BlogsTab() {
       console.error('Error:', error);
       setError('Er ging iets mis tijdens het verwijderen van de blog.');
     }
+  };
+
+  const openDeleteConfirm = (id: string, title: string) => {
+    setDeleteTarget({ id, title });
+  };
+
+  const closeDeleteConfirm = () => {
+    setDeleteTarget(null);
+  };
+
+  const confirmDeleteBlog = async () => {
+    if (!deleteTarget) return;
+    await handleDeleteBlog(deleteTarget.id);
+    setDeleteTarget(null);
   };
 
   return (
@@ -281,7 +294,7 @@ function BlogsTab() {
       <div className="space-y-4">
         {blogs.length === 0 && (
           <div className="bg-gray-800 p-6 rounded-lg text-gray-300">
-            Er zijn nog geen blogs. Klik op <strong>+ Nieuwe Blog</strong> om je eerste blog te maken.
+            Er zijn nog geen blogs. Klik op <strong>+ Blog aanmaken</strong> om je eerste blog te maken.
           </div>
         )}
 
@@ -315,7 +328,7 @@ function BlogsTab() {
                 </Link>
 
                 <button
-                  onClick={() => handleDeleteBlog(blog.id)}
+                  onClick={() => openDeleteConfirm(blog.id, blog.title)}
                   className="bg-red-600 px-4 py-2 rounded hover:bg-red-700 text-sm font-bold"
                 >
                   Verwijderen
@@ -331,6 +344,32 @@ function BlogsTab() {
           </div>
         ))}
       </div>
+
+      {deleteTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
+          <div className="w-full max-w-md rounded-xl border border-slate-600 bg-slate-900 p-6 shadow-2xl">
+            <h3 className="text-xl font-bold text-white mb-2">Blog verwijderen?</h3>
+            <p className="text-slate-300 mb-6">
+              Weet je zeker dat je <strong>{deleteTarget.title}</strong> wilt verwijderen? Dit kan niet ongedaan gemaakt worden.
+            </p>
+
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={closeDeleteConfirm}
+                className="px-4 py-2 rounded bg-slate-700 hover:bg-slate-600 text-white font-bold"
+              >
+                Annuleren
+              </button>
+              <button
+                onClick={confirmDeleteBlog}
+                className="px-4 py-2 rounded bg-red-600 hover:bg-red-700 text-white font-bold"
+              >
+                Ja, verwijderen
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
