@@ -24,7 +24,7 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-slate-900 to-slate-800">
+    <div className="flex min-h-screen bg-linear-to-br from-slate-900 to-slate-800">
       {/* Sidebar */}
       <div className="w-64 bg-slate-800 text-white p-6 shadow-xl">
         <h2 className="text-2xl font-bold mb-8">🌊 Admin</h2>
@@ -32,7 +32,7 @@ export default function AdminDashboard() {
           <button
             onClick={() => setActiveTab('dashboard')}
             className={`w-full text-left px-4 py-2 rounded-lg transition-colors duration-200 ${
-              activeTab === 'dashboard' ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white' : 'text-slate-300 hover:bg-slate-700'
+              activeTab === 'dashboard' ? 'bg-linear-to-r from-cyan-500 to-blue-500 text-white' : 'text-slate-300 hover:bg-slate-700'
             }`}
           >
             📊 Dashboard
@@ -40,7 +40,7 @@ export default function AdminDashboard() {
           <button
             onClick={() => setActiveTab('blogs')}
             className={`w-full text-left px-4 py-2 rounded-lg transition-colors duration-200 ${
-              activeTab === 'blogs' ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white' : 'text-slate-300 hover:bg-slate-700'
+              activeTab === 'blogs' ? 'bg-linear-to-r from-cyan-500 to-blue-500 text-white' : 'text-slate-300 hover:bg-slate-700'
             }`}
           >
             📝 Blogs
@@ -48,7 +48,7 @@ export default function AdminDashboard() {
           <button
             onClick={() => setActiveTab('staff')}
             className={`w-full text-left px-4 py-2 rounded-lg transition-colors duration-200 ${
-              activeTab === 'staff' ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white' : 'text-slate-300 hover:bg-slate-700'
+              activeTab === 'staff' ? 'bg-linear-to-r from-cyan-500 to-blue-500 text-white' : 'text-slate-300 hover:bg-slate-700'
             }`}
           >
             👥 Staff Team
@@ -56,7 +56,7 @@ export default function AdminDashboard() {
           <button
             onClick={() => setActiveTab('settings')}
             className={`w-full text-left px-4 py-2 rounded-lg transition-colors duration-200 ${
-              activeTab === 'settings' ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white' : 'text-slate-300 hover:bg-slate-700'
+              activeTab === 'settings' ? 'bg-linear-to-r from-cyan-500 to-blue-500 text-white' : 'text-slate-300 hover:bg-slate-700'
             }`}
           >
             ⚙️ Instellingen
@@ -93,24 +93,24 @@ function DashboardTab() {
     <div>
       <h1 className="text-4xl font-black text-cyan-400 mb-8 glow">Dashboard</h1>
       <div className="grid grid-cols-3 gap-6 mb-8">
-        <div className="relative bg-gradient-to-br from-slate-800/80 to-slate-900/80 p-6 rounded-xl shadow-xl overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 opacity-20 blur-xl"></div>
+        <div className="relative bg-linear-to-br from-slate-800/80 to-slate-900/80 p-6 rounded-xl shadow-xl overflow-hidden">
+          <div className="absolute inset-0 bg-linear-to-r from-cyan-500 to-blue-500 opacity-20 blur-xl"></div>
           <div className="relative text-white">
             <div className="text-4xl mb-2">📝</div>
             <p className="text-slate-300">Total Blogs</p>
             <p className="text-3xl font-bold">{blogs.length}</p>
           </div>
         </div>
-        <div className="relative bg-gradient-to-br from-slate-800/80 to-slate-900/80 p-6 rounded-xl shadow-xl overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 opacity-20 blur-xl"></div>
+        <div className="relative bg-linear-to-br from-slate-800/80 to-slate-900/80 p-6 rounded-xl shadow-xl overflow-hidden">
+          <div className="absolute inset-0 bg-linear-to-r from-cyan-500 to-blue-500 opacity-20 blur-xl"></div>
           <div className="relative text-white">
             <div className="text-4xl mb-2">👥</div>
             <p className="text-slate-300">Staff Members</p>
             <p className="text-3xl font-bold">-</p>
           </div>
         </div>
-        <div className="relative bg-gradient-to-br from-slate-800/80 to-slate-900/80 p-6 rounded-xl shadow-xl overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 opacity-20 blur-xl"></div>
+        <div className="relative bg-linear-to-br from-slate-800/80 to-slate-900/80 p-6 rounded-xl shadow-xl overflow-hidden">
+          <div className="absolute inset-0 bg-linear-to-r from-cyan-500 to-blue-500 opacity-20 blur-xl"></div>
           <div className="relative text-white">
             <div className="text-4xl mb-2">🎮</div>
             <p className="text-slate-300">Server Status</p>
