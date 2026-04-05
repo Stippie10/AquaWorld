@@ -43,10 +43,10 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="relative group max-w-md w-full">
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-2xl blur-lg opacity-40 group-hover:opacity-60 transition duration-500"></div>
-        <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 p-10 rounded-2xl border border-cyan-500/30 hover:border-cyan-500/60 transition space-y-6">
+        <div className="absolute inset-0 bg-linear-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-2xl blur-lg opacity-40 group-hover:opacity-60 transition duration-500"></div>
+        <div className="relative bg-linear-to-br from-slate-800 to-slate-900 p-10 rounded-2xl border border-cyan-500/30 hover:border-cyan-500/60 transition space-y-6">
           <div className="text-center">
-            <h1 className="text-3xl font-black mb-2 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-black mb-2 bg-linear-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
               🌊 AquaWorld
             </h1>
             <p className="text-slate-400 text-sm uppercase tracking-widest">Admin Login</p>
@@ -92,7 +92,7 @@ export default function LoginPage() {
               disabled={loading}
               className="w-full group relative overflow-hidden disabled:opacity-50 py-3 font-bold text-lg rounded-lg transition"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-600 group-hover:from-cyan-600 group-hover:to-blue-700 transition duration-300"></div>
+              <div className="absolute inset-0 bg-linear-to-r from-cyan-500 to-blue-600 group-hover:from-cyan-600 group-hover:to-blue-700 transition duration-300"></div>
               <span className="relative text-cyan-400 group-hover:text-cyan-300 transition block">
                 {loading ? 'Inloggen...' : '🔐 Inloggen'}
               </span>
